@@ -21,6 +21,7 @@ export default Vue.extend({
   padding: 0;
   text-decoration: none;
   color: #2c3e50;
+  box-sizing: border-box;
 }
 
 #app {
