@@ -128,12 +128,17 @@
         margin-top: 20px;
         padding: 5px 10px;
         border-radius: 3px;
-        background-color: white;
-        color: #2c3e50;
+        background-color: #35495d;
+        color: white;
         font-size: 0.9rem;
         font-weight: 500;
         margin-left: auto;
         outline: none;
+        border: none;
+    }
+
+    button:active {
+        background-color: #232d38;
     }
 
     #error {
@@ -143,4 +148,21 @@
         margin-bottom: 20px;
         display: block;
     }
+
+    @media (max-width: 768px) {
+
+        #create-tour {
+            padding: 40px 20px;
+        }
+
+        #create-container {
+            width: 100%;
+        }
+
+        .form-section:nth-child(1) {
+            flex-basis: 100%;
+        }
+
+    }
+
 </style>

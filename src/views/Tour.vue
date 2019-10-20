@@ -1,12 +1,12 @@
 <template>
   <div id="tour-page" class="d-flex justify-between">
-    
+    <Modal @remove="removeTour" @hide="() => this.modal = false" v-if="modal"/>
     <h1 class="main-item">{{tour.name}}</h1>
     <div class="aside-item">
       <img :src="tour.image" alt="Tour image" v-if="tour.image">
     </div>
     
-    <div class="box main-item">
+    <div class="box main-item description">
       <span class="title d-block">Description</span>
       <p v-if="tour.description">{{tour.description}}</p>
     </div>
@@ -16,26 +16,35 @@
       <span class="d-flex justify-between">Created: <span v-if="tour.createdAt">{{dateToString(tour.createdAt)}}</span></span>
       <span class="d-flex justify-between">Modified: <span v-if="tour.lastModified">{{dateToString(tour.lastModified)}}</span></span>
     </div>
+
+    <button @click="() => this.modal = true" id="remove">Remove tour</button>
  
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import Modal from '../components/RemoveModal.vue';
 
 export default {
   name: 'tour-page',
   data() {
     return {
       tour: '',
+      id: '',
+      modal: false,
     };
   },
   methods: {
     getTour() {
-      const id = window.location.hash.split('/').slice(-1)[0];
-      this.$axios.get(`http://localhost:3000/res/${id}`)
+      this.$axios.get(`http://localhost:3000/res/${this.id}`)
         .then((res) => this.tour = res.data)
-        .catch((err) => this.$router.replace('/'));
+        .catch(() => this.$router.replace('/'));
+    },
+    removeTour() {
+      this.$axios.delete(`http://localhost:3000/res/${this.id}`)
+        .then(() => this.$router.replace('/'))
+        .catch(() => {});
     },
     dateToString(timestamp) {
       const date = new Date(timestamp);
@@ -43,7 +52,11 @@ export default {
     },
   },
   created() {
+    this.id = window.location.hash.split('/').slice(-1)[0];
     this.getTour();
+  },
+  components: {
+    Modal,
   },
 };
 </script>
@@ -73,6 +86,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    position: relative;
+    min-height: 100vh;
   }
 
   h1 {
@@ -90,6 +105,10 @@ export default {
     text-align: left;
     padding: 20px;
     margin-top: 35px;
+  }
+
+  .description {
+    align-self: flex-start;
   }
 
   .info {
@@ -110,6 +129,21 @@ export default {
 
   .aside-item {
     flex-basis: 30%;
+  }
+
+  #remove {
+      margin: 80px auto 40px;
+      padding: 5px 5px;
+      border-radius: 4px;
+      border: none;
+      background-color: #d23d3d;
+      color: white;
+      font-weight: 500;
+      outline: none;
+  }
+
+  #remove:active {
+    background-color: #af2c2c;
   }
 
   @media (max-width: 768px) {
