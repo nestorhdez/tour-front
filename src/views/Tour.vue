@@ -1,24 +1,20 @@
 <template>
   <div id="tour-page" class="d-flex justify-between">
     
-    <h1 class="basis66">{{tour.name}}</h1>
-    <div class="basis30">
+    <h1 class="main-item">{{tour.name}}</h1>
+    <div class="aside-item">
       <img :src="tour.image" alt="Tour image" v-if="tour.image">
     </div>
-
-    <div class="info-container justify-between">
-     
-      <div class="box basis66">
-        <span class="title d-block">Description</span>
-        <p v-if="tour.description">{{tour.description}}</p>
-      </div>
-     
-      <div class="box basis30 info">
-        <span class="title d-block">Info</span>
-        <span class="d-flex justify-between">Created: <span v-if="tour.createdAt">{{dateToString(tour.createdAt)}}</span></span>
-        <span class="d-flex justify-between">Modified: <span v-if="tour.lastModified">{{dateToString(tour.lastModified)}}</span></span>
-      </div>
     
+    <div class="box main-item">
+      <span class="title d-block">Description</span>
+      <p v-if="tour.description">{{tour.description}}</p>
+    </div>
+    
+    <div class="box aside-item info">
+      <span class="title d-block">Info</span>
+      <span class="d-flex justify-between">Created: <span v-if="tour.createdAt">{{dateToString(tour.createdAt)}}</span></span>
+      <span class="d-flex justify-between">Modified: <span v-if="tour.lastModified">{{dateToString(tour.lastModified)}}</span></span>
     </div>
  
   </div>
@@ -66,6 +62,12 @@ export default {
     display: block;
   }
 
+  .title {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+
   #tour-page {
     padding: 55px;
     display: flex;
@@ -87,17 +89,12 @@ export default {
     border-radius: 3px;
     text-align: left;
     padding: 20px;
-  }
-
-  .info-container {
-    flex-basis: 100%;
-    margin: 40px 0;
-    display: flex;
-    justify-content: space-between;
+    margin-top: 35px;
   }
 
   .info {
     height: 100%;
+    align-self: flex-start;
     span {
       font-weight: 500;
     }
@@ -107,17 +104,26 @@ export default {
     margin-bottom: 7px;
   }
 
-  .basis66 {
+  .main-item {
     flex-basis: 66%;
   }
 
-  .basis30 {
+  .aside-item {
     flex-basis: 30%;
   }
-  .title {
-    font-size: 1.4rem;
-    font-weight: 500;
-    margin-bottom: 15px;
+
+  @media (max-width: 768px) {
+    #tour-page {
+      padding: 50px 30px;
+    }
+
+    h1 {
+      margin-bottom: 35px;
+    }
+
+    .main-item, .aside-item {
+      flex-basis: 100%;
+    }
   }
 
 </style>
