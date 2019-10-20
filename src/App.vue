@@ -31,6 +31,8 @@ export default Vue.extend({
   text-align: center;
   color: #2c3e50;
   background-color: #f5f7fa;
-  min-height: calc(100vh - 20px);
+  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
 }
 </style>

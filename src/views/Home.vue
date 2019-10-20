@@ -2,6 +2,7 @@
   <div class="home">
     <h1>List of tours</h1>
     <span v-if="error.status">{{error.msg}}</span>
+    <router-link to="/create/tour" v-if="!error.status" class="add-card">Add a new tour</router-link>
     <Card :title="tour.name" :img="tour.image" :id="tour.id" v-for="(tour, i) in tours" :key="i"/>
   </div>
 </template>
@@ -26,6 +27,7 @@ export default {
   },
   methods: {
     getTours() {
+      this.error.status = false;
       this.$axios.get('http://localhost:3000/res')
         .then( (res) => {
           this.tours = res.data;
@@ -64,6 +66,29 @@ export default {
     font-weight: 500;
     font-size: 1.4rem;
     margin-top: calc(50vh - 94px);
+  }
+
+  .add-card {
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 10px;
+    margin: 10px 0;
+    cursor: pointer;
+  }
+
+  .add-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .home {
+      width: 100%;
+      padding: 0 30px;
+    }
   }
 
 </style>

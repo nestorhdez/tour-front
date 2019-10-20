@@ -90,6 +90,7 @@ export default {
   }
 
   .info-container {
+    flex-basis: 100%;
     margin: 40px 0;
     display: flex;
     justify-content: space-between;
