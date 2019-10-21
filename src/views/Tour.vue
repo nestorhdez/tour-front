@@ -17,7 +17,10 @@
       <span class="d-flex justify-between">Modified: <span v-if="tour.lastModified">{{dateToString(tour.lastModified)}}</span></span>
     </div>
 
-    <button @click="() => this.modal = true" id="remove">Remove tour</button>
+    <div id="btn-actions-container" class="d-flex flex-column">
+      <router-link :to="`/edit/${id}`">Edit tour</router-link>
+      <button @click="() => this.modal = true" id="remove">Remove tour</button>
+    </div>
  
   </div>
 </template>
@@ -43,8 +46,7 @@ export default {
     },
     removeTour() {
       this.$axios.delete(`http://localhost:3000/res/${this.id}`)
-        .then(() => this.$router.replace('/'))
-        .catch(() => {});
+        .then(() => this.$router.replace('/'));
     },
     dateToString(timestamp) {
       const date = new Date(timestamp);
@@ -65,6 +67,10 @@ export default {
 
   .d-flex {
     display: flex;
+  }
+
+  .flex-column {
+    flex-direction: column;
   }
 
   .justify-between {
@@ -131,19 +137,26 @@ export default {
     flex-basis: 30%;
   }
 
+  #btn-actions-container {
+    margin: 80px auto 40px;
+    a {
+      background: white;
+      border-radius: 3px;
+      padding: 5px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+  }
+
   #remove {
-      margin: 80px auto 40px;
       padding: 5px 5px;
       border-radius: 4px;
       border: none;
-      background-color: #d23d3d;
-      color: white;
-      font-weight: 500;
+      background-color: transparent;
+      color: #d23d3d;
       outline: none;
-  }
-
-  #remove:active {
-    background-color: #af2c2c;
+      font-weight: 500;
+      font-size: .9rem;
+      margin-top: 30px;
   }
 
   @media (max-width: 768px) {
