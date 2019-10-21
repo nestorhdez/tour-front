@@ -47,7 +47,7 @@
             createTour() {
                 this.error.status = false;
                 if (this.tour.name && this.tour.description) {
-                    this.$axios.post('http://localhost:3000/res', this.tour)
+                    this.$axios.post(this.$url, this.tour)
                         .then((res) => this.$router.replace('/'))
                         .catch(() => {
                             this.error.status = true;

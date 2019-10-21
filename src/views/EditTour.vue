@@ -44,7 +44,7 @@
             editTour() {
                 this.message.status = false;
                 if (this.tour.name && this.tour.description) {
-                    this.$axios.put(`http://localhost:3000/res/${this.tour.id}`, this.tour)
+                    this.$axios.put(`${this.$url}/${this.tour.id}`, this.tour)
                         .then((res) => {
                             this.message.status = true;
                             this.message.msg = 'Saved correctly';
@@ -64,7 +64,7 @@
         },
         created() {
             const id = window.location.hash.split('/').slice(-1)[0];
-            this.$axios.get(`http://localhost:3000/res/${id}`)
+            this.$axios.get(`${this.$url}/${id}`)
                 .then((res) => this.tour = res.data)
                 .catch(() => this.$router.go(-1));
         },

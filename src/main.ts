@@ -4,6 +4,7 @@ import router from './router';
 import axios from 'axios';
 
 Vue.prototype.$axios = axios;
+Vue.prototype.$url = 'https://localhost:5001/Tours';
 
 Vue.config.productionTip = false;
 

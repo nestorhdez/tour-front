@@ -2,7 +2,7 @@
   <div class="home">
     <h1>List of tours</h1>
     <span v-if="error.status">{{error.msg}}</span>
-    <router-link to="/create/tour" v-if="!error.status" class="add-card">Add a new tour</router-link>
+    <router-link to="/create/tour" v-if="error.empty || !error.status" class="add-card">Add a new tour</router-link>
     <Card :title="tour.name" :img="tour.image" :id="tour.id" v-for="(tour, i) in tours" :key="i"/>
   </div>
 </template>
@@ -18,6 +18,7 @@ export default {
       tours: [],
       error: {
         status: false,
+        empty: false,
         msg: '',
       },
     };
@@ -28,16 +29,18 @@ export default {
   methods: {
     getTours() {
       this.error.status = false;
-      this.$axios.get('http://localhost:3000/res')
+      this.$axios.get(this.$url)
         .then( (res) => {
-          this.tours = res.data;
+          this.tours = res.data.reverse();
           if (res.data.length === 0) {
             this.error.status = true;
+            this.error.empty = true;
             this.error.msg = 'There are no tours to show';
           }
         })
         .catch( (err) => {
           this.error.status = true;
+          this.error.empty = false;
           this.error.msg = 'Something wrong happend...';
         });
     },

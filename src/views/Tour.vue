@@ -40,12 +40,12 @@ export default {
   },
   methods: {
     getTour() {
-      this.$axios.get(`http://localhost:3000/res/${this.id}`)
+      this.$axios.get(`${this.$url}/${this.id}`)
         .then((res) => this.tour = res.data)
         .catch(() => this.$router.replace('/'));
     },
     removeTour() {
-      this.$axios.delete(`http://localhost:3000/res/${this.id}`)
+      this.$axios.delete(`${this.$url}/${this.id}`)
         .then(() => this.$router.replace('/'));
     },
     dateToString(timestamp) {
