@@ -28,18 +28,18 @@ export default {
         tour: {
             name: String,
             description: String,
-            image: String,
         },
+        image: '',
     },
     methods: {
         changeFile() {
-            this.tour.image = this.$refs.file.files[0];
+            this.image = this.$refs.file.files[0];
         },
         emitEvent() {
-            this.$emit(this.btnName.toLowerCase());
+            this.$emit(this.btnName.toLowerCase(), this.image);
         },
-    }
-}
+    },
+};
 </script>
 
 <style lang="scss" scoped>

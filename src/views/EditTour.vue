@@ -22,9 +22,20 @@
             };
         },
         methods: {
-            editTour() {
+            uploadImg(img) {
+                const fd = new FormData();
+                fd.append('upload_preset', 'qzlyjodo');
+                fd.append('tags', 'browser_upload');
+                fd.append('file', img);
+                return axios.post('https://api.cloudinary.com/v1_1/df9pnnowd/upload', fd, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    })
+                    .then((res) => this.tour.image = res.data.secure_url);
+            },
+            async editTour() {
                 this.message.status = false;
-                if (this.tour.name && this.tour.description) {
+                await this.uploadImg(this.tour.image);
+                if (this.tour.name && this.tour.description && this.tour.image) {
                     this.$axios.put(`${this.$url}/${this.tour.id}`, this.tour)
                         .then((res) => {
                             this.message.status = true;
@@ -39,7 +50,7 @@
                 } else {
                     this.message.status = true;
                     this.message.res = false;
-                    this.message.msg = 'Title and description required';
+                    this.message.msg = 'Title, image and description required';
                 }
             },
         },
@@ -51,7 +62,7 @@
         },
         components: {
             Form,
-        }
+        },
     };
 </script>
 

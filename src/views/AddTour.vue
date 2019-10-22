@@ -15,7 +15,7 @@
             return {
                 tour: {
                     name: '',
-                    image: 'https://restcountries.eu/data/ata.svg',
+                    image: '',
                     description: '',
                 },
                 error: {
@@ -25,9 +25,20 @@
             };
         },
         methods: {
-            createTour() {
+            uploadImg(img) {
+                const fd = new FormData();
+                fd.append('upload_preset', 'qzlyjodo');
+                fd.append('tags', 'browser_upload');
+                fd.append('file', img);
+                return axios.post('https://api.cloudinary.com/v1_1/df9pnnowd/upload', fd, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    })
+                    .then((res) => this.tour.image = res.data.secure_url);
+            },
+            async createTour() {
                 this.error.status = false;
-                if (this.tour.name && this.tour.description) {
+                await this.uploadImg(this.tour.image);
+                if (this.tour.name && this.tour.description && this.tour.image) {
                     this.$axios.post(this.$url, this.tour)
                         .then((res) => this.$router.replace('/'))
                         .catch(() => {
@@ -36,13 +47,13 @@
                         });
                 } else {
                     this.error.status = true;
-                    this.error.msg = 'Title and description required';
+                    this.error.msg = 'Title, image and description required';
                 }
             },
         },
         components: {
             Form,
-        }
+        },
     };
 </script>
 
