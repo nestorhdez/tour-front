@@ -30,14 +30,18 @@
                 fd.append('upload_preset', 'qzlyjodo');
                 fd.append('tags', 'browser_upload');
                 fd.append('file', img);
-                return axios.post('https://api.cloudinary.com/v1_1/df9pnnowd/upload', fd, {
+                return this.$axios.post('https://api.cloudinary.com/v1_1/df9pnnowd/upload', fd, {
                     headers: { 'X-Requested-With': 'XMLHttpRequest' },
                     })
-                    .then((res) => this.tour.image = res.data.secure_url);
+                    .then((res) => this.tour.image = res.data.secure_url)
+                    .catch(() => {
+                        this.error.status = true;
+                        this.error.msg = 'Something wrong happend. Try it again.';
+                    });
             },
-            async createTour() {
+            async createTour(img) {
                 this.error.status = false;
-                await this.uploadImg(this.tour.image);
+                await this.uploadImg(img);
                 if (this.tour.name && this.tour.description && this.tour.image) {
                     this.$axios.post(this.$url, this.tour)
                         .then((res) => this.$router.replace('/'))

@@ -29,7 +29,11 @@ export default {
             name: String,
             description: String,
         },
-        image: '',
+    },
+    data() {
+        return {
+            image: '',
+        };
     },
     methods: {
         changeFile() {
