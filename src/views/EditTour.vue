@@ -9,6 +9,7 @@
 <script>
 
     import Form from '../components/TourForm';
+    import uploadImg from '../helpers/uploadImg';
 
     export default {
         data() {
@@ -22,24 +23,14 @@
             };
         },
         methods: {
-            uploadImg(img) {
-                const fd = new FormData();
-                fd.append('upload_preset', 'qzlyjodo');
-                fd.append('tags', 'browser_upload');
-                fd.append('file', img);
-                return this.$axios.post('https://api.cloudinary.com/v1_1/df9pnnowd/upload', fd, {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                    })
+            async editTour(img) {
+                this.message.status = false;
+                await uploadImg(img)
                     .then((res) => this.tour.image = res.data.secure_url)
                     .catch(() => {
                         this.error.status = true;
-                        this.message.res = false;
                         this.error.msg = 'Something wrong happend. Try it again.';
                     });
-            },
-            async editTour(img) {
-                this.message.status = false;
-                await this.uploadImg(img);
                 if (this.tour.name && this.tour.description && this.tour.image) {
                     this.$axios.put(`${this.$url}/${this.tour.id}`, this.tour)
                         .then((res) => {
