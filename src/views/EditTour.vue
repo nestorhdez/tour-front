@@ -25,12 +25,14 @@
         methods: {
             async editTour(img) {
                 this.message.status = false;
-                await uploadImg(img)
-                    .then((res) => this.tour.image = res.data.secure_url)
-                    .catch(() => {
-                        this.error.status = true;
-                        this.error.msg = 'Something wrong happend. Try it again.';
-                    });
+                if (img) {
+                    await uploadImg(img)
+                        .then((res) => this.tour.image = res.data.secure_url)
+                        .catch(() => {
+                            this.error.status = true;
+                            this.error.msg = 'Something wrong happend. Try it again.';
+                        });
+                }
                 if (this.tour.name && this.tour.description && this.tour.image) {
                     this.$axios.put(`${this.$url}/${this.tour.id}`, this.tour)
                         .then((res) => {
